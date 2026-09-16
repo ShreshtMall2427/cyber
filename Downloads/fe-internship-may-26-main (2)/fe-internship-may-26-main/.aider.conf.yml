@@ -1,0 +1,4 @@
+# Aider configuration -- search-assignment
+read:
+  - CONVENTIONS.md
+model: gpt-4o
