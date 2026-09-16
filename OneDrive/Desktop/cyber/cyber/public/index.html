@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CYBERWARE // Autonomous Agentic Commerce</title>
+  <meta name="description" content="An AI-powered agentic growth and secure commerce transaction system utilizing Razorpay Test APIs.">
+  
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;600;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+  <!-- Razorpay Standard Checkout SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  
+  <!-- Frontend Logic -->
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  
+  <!-- Main Glass Grid Wrapper -->
+  <div class="app-container">
+    
+    <!-- Top HUD Header -->
+    <header class="app-header">
+      <div class="header-logo">
+        <span class="logo-glow">CYBERWARE</span>
+        <span class="logo-version">// NODE_v1.0</span>
+      </div>
+      
+      <!-- Live Status Badges -->
+      <div class="header-status">
+        <div class="status-badge" id="llm-status-badge">
+          <span class="status-indicator yellow"></span>
+          <span class="status-label">LLM: MOCK</span>
+        </div>
+        <div class="status-badge" id="payment-status-badge">
+          <span class="status-indicator yellow"></span>
+          <span class="status-label">PAYMENT: MOCK</span>
+        </div>
+        <div class="status-badge" id="spent-limit-badge">
+          <span class="status-label">SPENT TODAY: ₹0</span>
+        </div>
+      </div>
+      
+      <!-- Settings HUD button -->
+      <button class="btn btn-primary" id="open-settings-btn">
+        <span class="icon">⚙</span> DEVELOPER HUD
+      </button>
+    </header>
+    
+    <!-- Three Column Layout -->
+    <main class="app-main-grid">
+      
+      <!-- Column 1: Catalog showcase -->
+      <section class="grid-panel catalog-panel" id="catalog-panel-section">
+        <div class="panel-header">
+          <h2>PRODUCT INVENTORY</h2>
+          <span class="badge badge-outline">JSON SCHEMA OPTIMIZED</span>
+        </div>
+        
+        <div class="catalog-grid" id="catalog-products-container">
+          <!-- Dynamically populated via JS -->
+          <div class="loading-spinner">Interfacing database...</div>
+        </div>
+      </section>
+      
+      <!-- Column 2: Agent Commerce Chat -->
+      <section class="grid-panel chat-panel" id="chat-panel-section">
+        <div class="panel-header">
+          <h2>AUTONOMOUS COMMERCE BROKER</h2>
+          <span class="badge badge-glow">AGENTIC UPSELLS</span>
+        </div>
+        
+        <!-- Chat History -->
+        <div class="chat-history-container" id="chat-history-list">
+          <div class="message system-message">
+            <div class="message-content">
+              <strong>SYSTEM STACK INITIALIZED // SECURE NODE</strong><br>
+              Hello client, I am your agentic broker node. I can search our catalog, recommended custom system add-ons, and initiate secure payment sequences. Ask me about our Neuralink BCI band or search for specific specifications.
+            </div>
+          </div>
+          
+          <!-- Dynamic chatbot bubbles populated via JS -->
+        </div>
+
+        <!-- Inline Active Cart / Checkout Widget (Hidden by default, shown when checkout is triggered) -->
+        <div class="checkout-overlay-widget" id="checkout-widget-overlay" style="display: none;">
+          <div class="checkout-card">
+            <div class="checkout-card-header">
+              <span class="checkout-pulse">●</span> SECURE PAYMENT INTERFACE
+            </div>
+            <div class="checkout-card-body">
+              <h3 id="checkout-product-title">Neuralink Band (BCI)</h3>
+              <div class="checkout-meta">
+                <span>Quantity: <strong id="checkout-product-qty">1</strong></span>
+                <span>Price: <strong id="checkout-product-price">₹14,999</strong></span>
+              </div>
+              <div class="checkout-total">
+                Total: <span id="checkout-product-total">₹14,999</span>
+              </div>
+              
+              <!-- Safety Gate warning banner -->
+              <div class="safety-gate-warning" id="safety-gate-banner" style="display: none;">
+                <div class="warning-title">⚠️ TRANSACTION BLOCKED BY SAFETY GATE</div>
+                <div class="warning-desc" id="safety-gate-reason">Exceeded single transaction limit threshold.</div>
+              </div>
+              
+              <div class="checkout-actions">
+                <button class="btn btn-secondary" id="checkout-cancel-btn">Cancel</button>
+                <button class="btn btn-glow" id="checkout-confirm-btn">Proceed Checkout</button>
+                <button class="btn btn-danger" id="checkout-authorize-btn" style="display: none;">Authorize Gated Tx</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Chat Input Bar -->
+        <form class="chat-input-form" id="chat-input-box">
+          <input type="text" id="chat-input-text" placeholder="Send transmission instructions to AI broker..." required autocomplete="off">
+          <button type="submit" class="btn btn-glow" id="chat-send-btn">SEND</button>
+        </form>
+      </section>
+      
+      <!-- Column 3: Safety Gate & Explainability Logs -->
+      <section class="grid-panel audit-panel" id="audit-panel-section">
+        <div class="panel-header">
+          <h2>SYSTEM AUDIT & THINKING LOGS</h2>
+          <button class="btn btn-sm btn-danger" id="clear-logs-btn">Clear Logs</button>
+        </div>
+        
+        <div class="audit-log-stream" id="audit-logs-container">
+          <!-- Dynamically populated via JS polling -->
+          <div class="audit-placeholder">No transaction actions in current stack.</div>
+        </div>
+      </section>
+      
+    </main>
+  </div>
+  
+  <!-- Developer HUD Settings Modal -->
+  <div class="hud-modal-overlay" id="settings-modal" style="display: none;">
+    <div class="hud-modal">
+      <div class="hud-modal-header">
+        <h3>SYSTEM SETTINGS & DEVELOPER HUD</h3>
+        <button class="close-btn" id="close-settings-btn">&times;</button>
+      </div>
+      <div class="hud-modal-body">
+        
+        <!-- API Credentials section -->
+        <div class="form-group-section">
+          <h4>🔐 API INTEGRATION KEYS</h4>
+          <div class="form-group">
+            <label for="input-groq-key">Groq API Key</label>
+            <input type="password" id="input-groq-key" placeholder="Enter GROQ_API_KEY (optional, fallback to mock)">
+            <small class="form-help">Leave empty to use client-side rule engine simulation with mock logs.</small>
+          </div>
+          <div class="form-group">
+            <label for="input-razorpay-id">Razorpay Test Key ID</label>
+            <input type="text" id="input-razorpay-id" placeholder="rzp_test_...">
+          </div>
+          <div class="form-group">
+            <label for="input-razorpay-secret">Razorpay Test Secret</label>
+            <input type="password" id="input-razorpay-secret" placeholder="Enter Razorpay Secret Key">
+            <small class="form-help">Credentials are saved in-memory on local backend node.</small>
+          </div>
+        </div>
+        
+        <!-- Money Gating Limits section -->
+        <div class="form-group-section">
+          <h4>🛡️ TRANSACTION SAFETY GATING</h4>
+          <div class="form-group inline-row">
+            <div>
+              <label for="input-single-limit">Single Tx Limit (₹)</label>
+              <input type="number" id="input-single-limit" value="15000">
+            </div>
+            <div>
+              <label for="input-daily-limit">Daily Spent Limit (₹)</label>
+              <input type="number" id="input-daily-limit" value="50000">
+            </div>
+          </div>
+          <div class="form-group flex-between">
+            <span>Spent Today Counter: <strong id="spent-today-counter-display">₹0</strong></span>
+            <button class="btn btn-sm btn-secondary" id="reset-spent-today-btn">Reset spent counters</button>
+          </div>
+        </div>
+
+        <!-- Failure Injection controls -->
+        <div class="form-group-section">
+          <h4>🧪 FAULT INJECTION ENGINE (RESILIENCE TESTS)</h4>
+          <div class="checkbox-group">
+            <label class="switch-container">
+              <input type="checkbox" id="check-fail-decline">
+              <span class="switch-slider"></span>
+              Simulate Bank Payment Decline (Declined payment recovery flow)
+            </label>
+          </div>
+          <div class="checkbox-group">
+            <label class="switch-container">
+              <input type="checkbox" id="check-fail-rate">
+              <span class="switch-slider"></span>
+              Simulate API Rate Limiting (Returns HTTP 429 server error fallback)
+            </label>
+          </div>
+          <div class="checkbox-group">
+            <label class="switch-container">
+              <input type="checkbox" id="check-fail-stock">
+              <span class="switch-slider"></span>
+              Simulate Missing Inventory (Returns Out of Stock scenario)
+            </label>
+          </div>
+          <div class="checkbox-group">
+            <label class="switch-container">
+              <input type="checkbox" id="check-fail-params">
+              <span class="switch-slider"></span>
+              Simulate Invalid Tool parameters (Returns malformed tool-use exception)
+            </label>
+          </div>
+        </div>
+
+      </div>
+      <div class="hud-modal-footer">
+        <button class="btn btn-secondary" id="cancel-settings-btn">Cancel</button>
+        <button class="btn btn-glow" id="save-settings-btn">APPLY CONFIGURATION</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mock Razorpay Payment Dialog Modal -->
+  <div class="mock-payment-overlay" id="mock-payment-modal" style="display: none;">
+    <div class="mock-payment-card">
+      <div class="mock-payment-header">
+        <div class="mock-brand">RAZORPAY TESTGATE</div>
+        <div class="mock-mode-label">TEST MODE</div>
+      </div>
+      <div class="mock-payment-body">
+        <div class="payment-summary">
+          <div class="summary-line">
+            <span>Merchant:</span>
+            <strong>CYBERWARE CO.</strong>
+          </div>
+          <div class="summary-line">
+            <span>Product:</span>
+            <strong id="mock-payment-summary-prod">Neuralink Band</strong>
+          </div>
+          <div class="summary-line">
+            <span>Quantity:</span>
+            <strong id="mock-payment-summary-qty">1</strong>
+          </div>
+          <div class="summary-line total-line">
+            <span>Amount Due:</span>
+            <strong id="mock-payment-summary-total">₹14,999</strong>
+          </div>
+        </div>
+
+        <p class="mock-disclaimer">This is a simulated Razorpay payment gateway to test agent integrations and failure recoveries seamlessly without live APIs.</p>
+
+        <div class="mock-payment-actions">
+          <button class="btn btn-danger" id="mock-payment-cancel-btn">DECLINE PAYMENT</button>
+          <button class="btn btn-glow" id="mock-payment-success-btn">COMPLETE PAYMENT</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

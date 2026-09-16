@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+razorpay
+python-dotenv
+httpx
+streamlit
+pymongo

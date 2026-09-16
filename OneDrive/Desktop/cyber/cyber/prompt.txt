@@ -1,0 +1,14 @@
+Act as a Frontend Developer.
+
+Session Goal: Build a Web UI (Streamlit or Next.js/React) displaying the chat agent, audit trail, and interactive failure simulation.
+
+Tasks:
+1. Main Conversational Window: User buys items via conversational AI, receiving real-time upsell recommendations.
+2. Transaction Safety Modal: Displays whenever a money action occurs showing:
+   - Spending Limit Status (Bounded check passed/failed)
+   - AI Rationale/Explainability Log
+   - Gated Action Button: "Approve Payment" / "Reject Payment".
+3. Real-Time Audit Trail Panel: Shows live JSON logs of AI thought processes, tool execution, and Razorpay API responses.
+4. Failure Simulation Toggle Switch: A UI control to manually inject errors (e.g., "Simulate Razorpay Payment Failure" or "Simulate Budget Breach") to demonstrate graceful recovery live to judges.
+
+Generate code for this interactive UI.
